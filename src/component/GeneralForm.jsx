@@ -67,6 +67,7 @@ const GeneralForm = () => {
           onBlur={emailBlur}
           onChange={changeHandler}
           value={emailValue}
+          required
         />
         {emailError && <p className="error-text">{emailError}</p>}
       </div>
@@ -78,6 +79,7 @@ const GeneralForm = () => {
           onChange={numberChangeHandler}
           onBlur={blurHandler}
           value={enteredValue}
+          required
         />
         {error && <p className="error-text">{error}</p>}
       </div>
