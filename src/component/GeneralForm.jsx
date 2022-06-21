@@ -4,8 +4,9 @@ import { MANDATORY, VALID } from "../common/constant";
 import Input from "../common/Input";
 import { Navigate } from "react-router-dom";
 
-const GeneralForm = (props) => {
-  const [isSubmitable, setIsSubmitable] = useState(false);
+const GeneralForm = () => {
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const {
     enteredValue: emailValue,
     validationClasses: emailValidationClasses,
@@ -25,6 +26,11 @@ const GeneralForm = (props) => {
     reset,
     setError,
   } = ValidationLogic(passwordValidation);
+
+  // useEffect(() => {
+  //   if (error && emailError) setIsFormValid(false);
+  //   else setIsFormValid(true);
+  // }, [enteredValue, emailValue]);
 
   function passwordValidation(enteredValue) {
     if (enteredValue.trim() === "") {
@@ -46,6 +52,7 @@ const GeneralForm = (props) => {
     const emailRegex = /\S+@\S+\.\S+/;
     if (enteredValue.trim() === "") {
       setEmailError(MANDATORY);
+
       return;
       // } else if (enteredValue.includes("@")) {
     } else if (emailRegex.test(enteredValue)) {
@@ -57,19 +64,22 @@ const GeneralForm = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+
     emailValidation(emailValue);
     passwordValidation(enteredValue);
-    if (!error || !emailError) {
-      setIsSubmitable(true);
-      //   Reset Form
-      reset();
+    if (error && emailError) {
+      setIsFormValid(false);
+    } else {
+      setIsFormValid(true);
+      // Reset Form
       resetEmail();
+      reset();
     }
   };
 
   return (
     <>
-      {isSubmitable && <Navigate to="/select " />}
+      {isFormValid && <Navigate to="/select " />}
       <form onSubmit={submitHandler}>
         {Input({
           name: "email",
