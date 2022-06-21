@@ -1,20 +1,29 @@
-import { useState } from "react";
+import ValidationLogic from "../common/validationLogic";
+import { MANDATORY, VALID } from "../common/constant";
 
-const GeneralInput = () => {
-  const [enteredValue, setEnteredValue] = useState("");
-  const [error, setError] = useState("");
+const GeneralForm = () => {
+  const {
+    enteredValue: emailValue,
+    validationClasses: emailValidationClasses,
+    error: emailError,
+    setError: setEmailError,
+    changeHandler,
+    blurHandler: emailBlur,
+  } = ValidationLogic(emailValidation);
 
-  const changeHandler = (e) => {
-    if (e.target.value && !Number.isFinite(parseInt(e.target.value))) {
-      setError("Please enter numeric digit having sum equal to 10");
-    } else {
-      setEnteredValue(e.target.value);
-    }
-  };
+  const {
+    enteredValue,
+    validationClasses,
+    error,
+    numberChangeHandler,
+    blurHandler,
+    // reset,
+    setError,
+  } = ValidationLogic(passwordValidation);
 
-  const passwordValidation = () => {
+  function passwordValidation(enteredValue) {
     if (enteredValue.trim() === "") {
-      setError("This field is required !!!");
+      setError(MANDATORY);
       return;
     } else {
       const res =
@@ -26,46 +35,57 @@ const GeneralInput = () => {
         setError("");
       }
     }
-  };
+  }
 
-  const blurHandler = (e) => {
-    passwordValidation();
-  };
+  function emailValidation(enteredValue) {
+    if (enteredValue.trim() === "") {
+      setEmailError(MANDATORY);
+      console.log(emailError);
+      return;
+    } else if (enteredValue.includes("@")) {
+      setEmailError("");
+    } else {
+      setEmailError(VALID);
+    }
+  }
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    passwordValidation();
+    passwordValidation(enteredValue);
+    emailValidation(emailValue);
+    // Reset Form
+    // reset();
   };
-
-  const isValid = !error;
-
-  const passwordValidationClasses = !isValid
-    ? "form-control invalid"
-    : "form-control";
 
   return (
     <form onSubmit={submitHandler}>
-      <div className="form-control">
-        <label htmlFor="email">Your Email</label>
-        <input type="email" id="email" />
+      <div className={emailValidationClasses}>
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          onBlur={emailBlur}
+          onChange={changeHandler}
+          value={emailValue}
+        />
+        {emailError && <p className="error-text">{emailError}</p>}
       </div>
-      <div className={passwordValidationClasses}>
+      <div className={validationClasses}>
         <label htmlFor="password">Password</label>
         <input
           type="password"
           id="password"
-          onChange={changeHandler}
+          onChange={numberChangeHandler}
           onBlur={blurHandler}
           value={enteredValue}
         />
-        {!isValid && <p className="error-text">{error}</p>}
+        {error && <p className="error-text">{error}</p>}
       </div>
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={error || emailError}>Submit</button>
       </div>
     </form>
   );
 };
 
-export default GeneralInput;
+export default GeneralForm;
