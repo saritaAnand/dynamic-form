@@ -1,7 +1,8 @@
 import ValidationLogic from "../common/validationLogic";
 import { MANDATORY, VALID } from "../common/constant";
+import Input from "../common/Input";
 
-const GeneralForm = () => {
+const GeneralForm = (props) => {
   const {
     enteredValue: emailValue,
     validationClasses: emailValidationClasses,
@@ -9,6 +10,7 @@ const GeneralForm = () => {
     setError: setEmailError,
     changeHandler,
     blurHandler: emailBlur,
+    reset: resetEmail,
   } = ValidationLogic(emailValidation);
 
   const {
@@ -17,7 +19,7 @@ const GeneralForm = () => {
     error,
     numberChangeHandler,
     blurHandler,
-    // reset,
+    reset,
     setError,
   } = ValidationLogic(passwordValidation);
 
@@ -38,11 +40,13 @@ const GeneralForm = () => {
   }
 
   function emailValidation(enteredValue) {
+    const emailRegex = /\S+@\S+\.\S+/;
     if (enteredValue.trim() === "") {
       setEmailError(MANDATORY);
       console.log(emailError);
       return;
-    } else if (enteredValue.includes("@")) {
+      // } else if (enteredValue.includes("@")) {
+    } else if (emailRegex.test(enteredValue)) {
       setEmailError("");
     } else {
       setEmailError(VALID);
@@ -51,15 +55,29 @@ const GeneralForm = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    passwordValidation(enteredValue);
     emailValidation(emailValue);
-    // Reset Form
-    // reset();
+    passwordValidation(enteredValue);
+    if (!error || !emailError) {
+      props.history.push("/select");
+      //   Reset Form
+      reset();
+      resetEmail();
+    }
   };
 
   return (
     <form onSubmit={submitHandler}>
-      <div className={emailValidationClasses}>
+      {Input({
+        name: "email",
+        label: "Email",
+        type: "email",
+        value: emailValue,
+        validationClasses: emailValidationClasses,
+        handleChange: changeHandler,
+        handleBlur: emailBlur,
+        error: emailError,
+      })}
+      {/* <div className={emailValidationClasses}>
         <label htmlFor="email">Email</label>
         <input
           type="email"
@@ -67,11 +85,21 @@ const GeneralForm = () => {
           onBlur={emailBlur}
           onChange={changeHandler}
           value={emailValue}
-          required
+          //   required
         />
         {emailError && <p className="error-text">{emailError}</p>}
-      </div>
-      <div className={validationClasses}>
+      </div> */}
+      {Input({
+        name: "password",
+        label: "Password",
+        type: "password",
+        value: enteredValue,
+        validationClasses,
+        handleChange: numberChangeHandler,
+        handleBlur: blurHandler,
+        error: error,
+      })}
+      {/* <div className={validationClasses}>
         <label htmlFor="password">Password</label>
         <input
           type="password"
@@ -79,10 +107,10 @@ const GeneralForm = () => {
           onChange={numberChangeHandler}
           onBlur={blurHandler}
           value={enteredValue}
-          required
+          //   required
         />
         {error && <p className="error-text">{error}</p>}
-      </div>
+      </div> */}
       <div className="form-actions">
         <button disabled={error || emailError}>Submit</button>
       </div>
