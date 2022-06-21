@@ -1,3 +1,5 @@
+import React from "react";
+
 const Select = () => {
   return (
     <>
@@ -9,6 +11,7 @@ const Select = () => {
         className="form-control"
         type="color"
       />
+
       <select multiple>
         <datalist id="redColors">
           <option value="#800000" />

@@ -1,8 +1,11 @@
+import React, { useState } from "react";
 import ValidationLogic from "../common/validationLogic";
 import { MANDATORY, VALID } from "../common/constant";
 import Input from "../common/Input";
+import { Navigate } from "react-router-dom";
 
 const GeneralForm = (props) => {
+  const [isSubmitable, setIsSubmitable] = useState(false);
   const {
     enteredValue: emailValue,
     validationClasses: emailValidationClasses,
@@ -43,7 +46,6 @@ const GeneralForm = (props) => {
     const emailRegex = /\S+@\S+\.\S+/;
     if (enteredValue.trim() === "") {
       setEmailError(MANDATORY);
-      console.log(emailError);
       return;
       // } else if (enteredValue.includes("@")) {
     } else if (emailRegex.test(enteredValue)) {
@@ -58,7 +60,7 @@ const GeneralForm = (props) => {
     emailValidation(emailValue);
     passwordValidation(enteredValue);
     if (!error || !emailError) {
-      props.history.push("/select");
+      setIsSubmitable(true);
       //   Reset Form
       reset();
       resetEmail();
@@ -66,55 +68,36 @@ const GeneralForm = (props) => {
   };
 
   return (
-    <form onSubmit={submitHandler}>
-      {Input({
-        name: "email",
-        label: "Email",
-        type: "email",
-        value: emailValue,
-        validationClasses: emailValidationClasses,
-        handleChange: changeHandler,
-        handleBlur: emailBlur,
-        error: emailError,
-      })}
-      {/* <div className={emailValidationClasses}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          onBlur={emailBlur}
-          onChange={changeHandler}
-          value={emailValue}
-          //   required
-        />
-        {emailError && <p className="error-text">{emailError}</p>}
-      </div> */}
-      {Input({
-        name: "password",
-        label: "Password",
-        type: "password",
-        value: enteredValue,
-        validationClasses,
-        handleChange: numberChangeHandler,
-        handleBlur: blurHandler,
-        error: error,
-      })}
-      {/* <div className={validationClasses}>
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          onChange={numberChangeHandler}
-          onBlur={blurHandler}
-          value={enteredValue}
-          //   required
-        />
-        {error && <p className="error-text">{error}</p>}
-      </div> */}
-      <div className="form-actions">
-        <button disabled={error || emailError}>Submit</button>
-      </div>
-    </form>
+    <>
+      {isSubmitable && <Navigate to="/select " />}
+      <form onSubmit={submitHandler}>
+        {Input({
+          name: "email",
+          label: "Email",
+          type: "email",
+          value: emailValue,
+          validationClasses: emailValidationClasses,
+          handleChange: changeHandler,
+          handleBlur: emailBlur,
+          error: emailError,
+        })}
+
+        {Input({
+          name: "password",
+          label: "Password",
+          type: "password",
+          value: enteredValue,
+          validationClasses,
+          handleChange: numberChangeHandler,
+          handleBlur: blurHandler,
+          error: error,
+        })}
+
+        <div className="form-actions">
+          <button disabled={error || emailError}>Submit</button>
+        </div>
+      </form>
+    </>
   );
 };
 
