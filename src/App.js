@@ -2,7 +2,11 @@ import GeneralForm from "./component/GeneralForm";
 import "./App.css";
 
 function App() {
-  return <GeneralForm />;
+  return (
+    <div className="app">
+      <GeneralForm />
+    </div>
+  );
 }
 
 export default App;
