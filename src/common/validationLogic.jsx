@@ -3,9 +3,11 @@ import { useState } from "react";
 const ValidationLogic = (validationLogic) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [error, setError] = useState("");
+  const [isTouched, setIsTouched] = useState(false);
 
   const textchangeHandler = (e) => {
     setEnteredValue(e.target.value);
+    setIsTouched(true);
   };
 
   const numberChangeHandler = (e) => {
@@ -18,8 +20,10 @@ const ValidationLogic = (validationLogic) => {
 
   const blurHandler = () => {
     validationLogic(enteredValue);
+    setIsTouched(true);
   };
 
+  const IsValid = isTouched && !error;
   const validationClasses = error ? "form-control invalid" : "form-control";
 
   const reset = () => {
@@ -36,6 +40,7 @@ const ValidationLogic = (validationLogic) => {
     numberChangeHandler,
     blurHandler,
     reset,
+    IsValid,
   };
 };
 

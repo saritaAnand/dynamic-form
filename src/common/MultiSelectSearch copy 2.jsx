@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Input from "../common/Input";
 
 const intialDropdown = [
   { title: "React", id: "react", isChecked: false },
@@ -40,8 +39,6 @@ const MultiSelectSearch = () => {
 
   const [keyword, setKeyword] = useState("");
 
-  let validationClasses;
-
   // const [searchState, dispatchSearch] = useReducer(searchReducer, [
   //   { title: "React", id: "react", isChecked: true },
   //   { title: "Angular", id: "angular", isChecked: false },
@@ -59,11 +56,13 @@ const MultiSelectSearch = () => {
       return;
     } else {
       const res = arr.filter((cv) => cv.id.includes(keyword));
+      console.log(res);
       setArr(res);
       if (keyword.length === 0) {
         setArr(intialDropdown);
       }
     }
+    console.log(keyword);
     // dispatchSearch({ type: "SEARCH", value: res });
   }, [keyword]);
 
@@ -97,28 +96,33 @@ const MultiSelectSearch = () => {
     setIsSearch(false);
     setAllChecked(e.target.checked);
     setIsMulti((preState) => !preState);
+    // };
+
+    // useEffect(() => {
     const newArr = arr.map((cv) => {
       return { ...cv, isChecked: allChecked };
     });
     setArr(newArr);
     visibleValue();
   };
+  // [allChecked, isMulti]);
 
   return (
     <>
       <form>
-        {Input({
-          name: "email",
-          type: "search",
-          value: keyword,
-          handleChange: searchHandler,
-          placeholder: "Search or Multiple Select",
-        })}
-
+        {/* {obj.map((r) => (
+          <input type="text" onChange={visibleValue} value={r.title} />
+        ))} */}
+        <input
+          type="search"
+          value={keyword}
+          onChange={searchHandler}
+          className="form-control"
+          placeholder="Search or Multiple Select"
+        />
         <br />
         <legend>Choose your favorite languages</legend>
         <br />
-
         <input
           type="checkbox"
           id="all"
@@ -130,7 +134,7 @@ const MultiSelectSearch = () => {
         {arr &&
           arr.map((item) => {
             return (
-              <>
+              <div>
                 <input
                   type="checkbox"
                   key={item.id}
@@ -139,11 +143,9 @@ const MultiSelectSearch = () => {
                   checked={item.isChecked}
                   onChange={checkBoxHandler}
                 />
-                <label style={validationClasses} htmlFor={item.id}>
-                  {item.title}
-                </label>
+                <label htmlFor="kraken">{item.title}</label>
                 <br />
-              </>
+              </div>
             );
           })}
       </form>

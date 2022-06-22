@@ -13,6 +13,10 @@ body {
   background-color: #3f3f3f;
 }
 
+.background-color {
+  background-color: red;
+}
+
 .app {
   width: 90%;
   max-width: 43rem;

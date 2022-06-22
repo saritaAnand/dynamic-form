@@ -14,7 +14,8 @@ const GeneralForm = () => {
     setError: setEmailError,
     changeHandler,
     blurHandler: emailBlur,
-    reset: resetEmail,
+    // reset: resetEmail,
+    IsValid: isValidEmail,
   } = ValidationLogic(emailValidation);
 
   const {
@@ -23,14 +24,10 @@ const GeneralForm = () => {
     error,
     numberChangeHandler,
     blurHandler,
-    reset,
+    // reset,
     setError,
+    IsValid: isValidPassword,
   } = ValidationLogic(passwordValidation);
-
-  // useEffect(() => {
-  //   if (error && emailError) setIsFormValid(false);
-  //   else setIsFormValid(true);
-  // }, [enteredValue, emailValue]);
 
   function passwordValidation(enteredValue) {
     if (enteredValue.trim() === "") {
@@ -52,7 +49,6 @@ const GeneralForm = () => {
     const emailRegex = /\S+@\S+\.\S+/;
     if (enteredValue.trim() === "") {
       setEmailError(MANDATORY);
-
       return;
       // } else if (enteredValue.includes("@")) {
     } else if (emailRegex.test(enteredValue)) {
@@ -67,13 +63,13 @@ const GeneralForm = () => {
 
     emailValidation(emailValue);
     passwordValidation(enteredValue);
-    if (error && emailError) {
-      setIsFormValid(false);
-    } else {
+    if (isValidEmail && isValidPassword) {
       setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
       // Reset Form
-      resetEmail();
-      reset();
+      // resetEmail();
+      // reset();
     }
   };
 
