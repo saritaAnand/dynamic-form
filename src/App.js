@@ -13,7 +13,7 @@ function App() {
     <div className="app">
       <Routes>
         <Route path="/" element={<GeneralForm />} />
-        <Route path="/select" element={<Select />} />
+        <Route path="/home" element={<Select />} />
       </Routes>
     </div>
   );

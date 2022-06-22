@@ -1,10 +1,22 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 
 const intialDropdown = [
   { title: "React", id: "react", isChecked: false },
   { title: "Angular", id: "angular", isChecked: false },
   { title: "Vue", id: "vue", isChecked: false },
   { title: "Ember", id: "ember", isChecked: false },
+  { title: "Python", id: "python", isChecked: false },
+  { title: "Node", id: "node", isChecked: false },
+  { title: "Java", id: "java", isChecked: false },
+  { title: "JavaScript", id: "javaScript", isChecked: false },
+  { title: "Php", id: "php", isChecked: false },
+  { title: "Ruby", id: "ruby", isChecked: false },
+  { title: "Golang", id: "go", isChecked: false },
+  { title: "MATLAB", id: "matlab", isChecked: false },
+  { title: "Perl", id: "perl", isChecked: false },
+  { title: "Kotlin", id: "kotlin", isChecked: false },
+  { title: "R", id: "r", isChecked: false },
+  { title: "C", id: "c", isChecked: false },
 ];
 // const searchReducer = (state, action) => {
 //   if (action.type === "SEARCH") {
@@ -19,9 +31,11 @@ const intialDropdown = [
 const MultiSelectSearch = () => {
   const [arr, setArr] = useState(intialDropdown);
 
-  const [allChecked, setAllChecked] = useState(false);
+  const [allChecked, setAllChecked] = useState(true);
 
   const [isMulti, setIsMulti] = useState(false);
+
+  const [isSearch, setIsSearch] = useState(false);
 
   const [keyword, setKeyword] = useState("");
 
@@ -33,24 +47,24 @@ const MultiSelectSearch = () => {
   // ]);
 
   const searchHandler = (e) => {
-    setIsMulti(false);
+    setIsSearch(true);
     setKeyword(e.target.value);
   };
 
-  // useEffect(() => {
-  //   if (isMulti) {
-  //     return;
-  //   } else {
-  //     const res = arr.filter((cv) => cv.id.includes(keyword));
-  //     console.log(res);
-  //     setArr(res);
-  //     if (keyword.length === 0) {
-  //       setArr(intialDropdown);
-  //     }
-  //   }
-  //   console.log(keyword);
-  //   // dispatchSearch({ type: "SEARCH", value: res });
-  // }, [keyword]);
+  useEffect(() => {
+    if (!isSearch) {
+      return;
+    } else {
+      const res = arr.filter((cv) => cv.id.includes(keyword));
+      console.log(res);
+      setArr(res);
+      if (keyword.length === 0) {
+        setArr(intialDropdown);
+      }
+    }
+    console.log(keyword);
+    // dispatchSearch({ type: "SEARCH", value: res });
+  }, [keyword]);
 
   useEffect(() => {
     visibleValue();
@@ -63,12 +77,12 @@ const MultiSelectSearch = () => {
       .forEach((r) => {
         o.push(r.title);
       });
-
     setKeyword(o);
   };
 
   const checkBoxHandler = (e) => {
-    setIsMulti((state) => !state);
+    setIsSearch(false);
+    setIsMulti((preState) => !preState);
     const newArr = arr.map((cv) => {
       if (cv.id === e.target.value) {
         return { ...cv, isChecked: e.target.checked };
@@ -79,17 +93,19 @@ const MultiSelectSearch = () => {
   };
 
   const allCheckBoxHandler = (e) => {
-    setIsMulti((state) => !state);
+    setIsSearch(false);
     setAllChecked(e.target.checked);
-  };
+    setIsMulti((preState) => !preState);
+    // };
 
-  useEffect(() => {
+    // useEffect(() => {
     const newArr = arr.map((cv) => {
       return { ...cv, isChecked: allChecked };
     });
     setArr(newArr);
     visibleValue();
-  }, [allChecked]);
+  };
+  // [allChecked, isMulti]);
 
   return (
     <>
@@ -97,16 +113,24 @@ const MultiSelectSearch = () => {
         {/* {obj.map((r) => (
           <input type="text" onChange={visibleValue} value={r.title} />
         ))} */}
-        <input type="search" value={keyword} onChange={searchHandler} />
+        <input
+          type="search"
+          value={keyword}
+          onChange={searchHandler}
+          className="form-control"
+          placeholder="Search or Multiple Select"
+        />
         <br />
-        <legend>Choose your favorite language</legend>
+        <legend>Choose your favorite languages</legend>
+        <br />
         <input
           type="checkbox"
           id="all"
           checked={allChecked}
           onChange={allCheckBoxHandler}
         />
-        <label htmlFor="all">All</label>
+        <label htmlFor="all">None (Checked) -- All(Un Checked)</label>
+        <hr />
         {arr &&
           arr.map((item) => {
             return (

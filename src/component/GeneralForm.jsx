@@ -79,7 +79,7 @@ const GeneralForm = () => {
 
   return (
     <>
-      {isFormValid && <Navigate to="/select " />}
+      {isFormValid && <Navigate to="/home " />}
       <form onSubmit={submitHandler}>
         {Input({
           name: "email",
