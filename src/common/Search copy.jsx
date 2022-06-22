@@ -10,6 +10,7 @@ const Search = () => {
         name="color-choice"
         type="search"
         className="form-control"
+        value={}
         // type="color"
       />
       <datalist id="redColors">
