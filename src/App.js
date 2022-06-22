@@ -1,6 +1,6 @@
 import React from "react";
 import GeneralForm from "./component/GeneralForm";
-import Select from "./component/Select";
+import Home from "./component/Home";
 import { Routes, Route } from "react-router-dom";
 
 // import { createBrowserHistory } from "history";
@@ -13,7 +13,7 @@ function App() {
     <div className="app">
       <Routes>
         <Route path="/" element={<GeneralForm />} />
-        <Route path="/home" element={<Select />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </div>
   );
