@@ -39,7 +39,7 @@ const MultiSelectSearch = (data) => {
     if (!isSearch) {
       return;
     } else {
-      const res = arr.filter((cv) => cv.id.includes(keyword));
+      const res = arr.filter((cv) => cv.id.includes(keyword.toLowerCase()));
       setArr(res);
       if (keyword.length === 0) {
         setArr(data);
