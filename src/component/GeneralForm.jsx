@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ValidationLogic from "../common/validationLogic";
 import { MANDATORY, VALID } from "../common/constant";
-import Input from "../common/Input";
+import Input from "../common/input";
 import { Navigate } from "react-router-dom";
 
 const GeneralForm = () => {
