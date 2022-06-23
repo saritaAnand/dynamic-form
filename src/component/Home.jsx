@@ -2,7 +2,7 @@ import React from "react";
 import Input from "../common/Input";
 import MultiSelectSearch from "../common/MultiSelectSearch";
 
-const Select = () => {
+const Home = () => {
   const intialDropdown = [
     { title: "React", id: "react", isChecked: false },
     { title: "Angular", id: "angular", isChecked: false },
@@ -106,4 +106,4 @@ const Select = () => {
   );
 };
 
-export default Select;
+export default Home;
