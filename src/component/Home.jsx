@@ -11,7 +11,7 @@ const Select = () => {
     { title: "Python", id: "python", isChecked: false },
     { title: "Node", id: "node", isChecked: false },
     { title: "Java", id: "java", isChecked: false },
-    { title: "JavaScript", id: "javaScript", isChecked: false },
+    { title: "JavaScript", id: "javascript", isChecked: false },
     { title: "Php", id: "php", isChecked: false },
     { title: "Ruby", id: "ruby", isChecked: false },
     { title: "Golang", id: "go", isChecked: false },
