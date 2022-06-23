@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
 
+// const searchReducer = (state, action) => {
+//   if (action.type === "SEARCH") {
+//     return [...state,action.value];
+//   }
+//   if (action.type === "CLEAR") {
+//     return state ;
+//   }
+//   return state;
+// };
+
 const MultiSelectSearch = (data) => {
   const [arr, setArr] = useState(data);
 
@@ -11,19 +21,14 @@ const MultiSelectSearch = (data) => {
 
   const [keyword, setKeyword] = useState("");
 
-  const [initialObj, setInitialObj] = useState();
-
   let validationClasses;
 
-  // convert Array into Object Array
-  useEffect(() => {
-    let o = [];
-    arr.forEach((item) => {
-      o.push({ title: item, id: item, isChecked: false });
-    });
-    setArr(o);
-    setInitialObj(o);
-  }, []);
+  // const [searchState, dispatchSearch] = useReducer(searchReducer, [
+  //   { title: "React", id: "react", isChecked: true },
+  //   { title: "Angular", id: "angular", isChecked: false },
+  //   { title: "Vue", id: "vue", isChecked: false },
+  //   { title: "Ember", id: "ember", isChecked: true },
+  // ]);
 
   const searchHandler = (e) => {
     setIsSearch(true);
@@ -34,15 +39,14 @@ const MultiSelectSearch = (data) => {
     if (!isSearch) {
       return;
     } else {
-      const res = arr.filter(
-        (cv) => cv.title.toLowerCase().includes(keyword.toLowerCase()) //@@@@@@@@@@@@@@@@
+      const res = arr.filter((cv) =>
+        cv.title.toLowerCase().includes(keyword.toLowerCase())
       );
       setArr(res);
       if (keyword.length === 0) {
-        setArr(initialObj);
+        setArr(data);
       }
     }
-
     // dispatchSearch({ type: "SEARCH", value: res });
   }, [keyword]);
 
@@ -55,7 +59,7 @@ const MultiSelectSearch = (data) => {
     arr
       .filter((it) => it.isChecked)
       .forEach((r) => {
-        o.push(r.title); //@@@@@@@@@
+        o.push(r.title);
       });
     setKeyword(o);
   };
@@ -65,7 +69,6 @@ const MultiSelectSearch = (data) => {
     setIsMulti((preState) => !preState);
     const newArr = arr.map((cv) => {
       if (cv.id === e.target.value) {
-        // @@@@@@@@@@
         return { ...cv, isChecked: e.target.checked };
       } else return cv;
     });
