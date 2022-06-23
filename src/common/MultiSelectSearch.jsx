@@ -11,19 +11,7 @@ const MultiSelectSearch = (data) => {
 
   const [keyword, setKeyword] = useState("");
 
-  const [initialObj, setInitialObj] = useState();
-
   let validationClasses;
-
-  // convert Array into Object Array
-  useEffect(() => {
-    let o = [];
-    arr.forEach((item) => {
-      o.push({ title: item, id: item, isChecked: false });
-    });
-    setArr(o);
-    setInitialObj(o);
-  }, []);
 
   const searchHandler = (e) => {
     setIsSearch(true);
@@ -34,12 +22,12 @@ const MultiSelectSearch = (data) => {
     if (!isSearch) {
       return;
     } else {
-      const res = arr.filter(
-        (cv) => cv.title.toLowerCase().includes(keyword.toLowerCase()) //@@@@@@@@@@@@@@@@
+      const res = arr.filter((cv) =>
+        cv.title.toLowerCase().includes(keyword.toLowerCase())
       );
       setArr(res);
       if (keyword.length === 0) {
-        setArr(initialObj);
+        setArr(data);
       }
     }
 
@@ -55,7 +43,7 @@ const MultiSelectSearch = (data) => {
     arr
       .filter((it) => it.isChecked)
       .forEach((r) => {
-        o.push(r.title); //@@@@@@@@@
+        o.push(r.title);
       });
     setKeyword(o);
   };
@@ -65,7 +53,6 @@ const MultiSelectSearch = (data) => {
     setIsMulti((preState) => !preState);
     const newArr = arr.map((cv) => {
       if (cv.id === e.target.value) {
-        // @@@@@@@@@@
         return { ...cv, isChecked: e.target.checked };
       } else return cv;
     });
